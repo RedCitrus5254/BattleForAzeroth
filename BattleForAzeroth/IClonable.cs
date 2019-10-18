@@ -10,4 +10,9 @@ namespace BattleForAzeroth
     {
         IUnit Clone();
     }
+
+    interface IClonableToo
+    {
+        IUnit Clone();
+    }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BattleForAzeroth.ClassesOfUnits
 {
-    class HeavyInfantry : IUnit
+    class HeavyInfantry : IUnit, IClonableToo
     {
         public string Name { get; } = "HeavyInfantry";
         public int MaxHealth { get; set; } = 100;
@@ -14,6 +14,23 @@ namespace BattleForAzeroth.ClassesOfUnits
         public int Armour { get; set; } = 3;
         public int Damage { get; set; } = 10;
 
+        public HeavyInfantry()
+        {
+
+        }
+        public HeavyInfantry(HeavyInfantry HeavyInfantry)
+        {
+            Name = HeavyInfantry.Name;
+            MaxHealth = HeavyInfantry.MaxHealth;
+            Health = HeavyInfantry.Health;
+            Armour = HeavyInfantry.Armour;
+            Damage = HeavyInfantry.Damage;
+        }
+
+        public IUnit Clone()
+        {
+            return new HeavyInfantry(this);
+        }
         public void TakeDamage(int damage)
         {
             int loss = damage - Armour;
@@ -109,7 +126,7 @@ namespace BattleForAzeroth.ClassesOfUnits
         
     }
 
-    class DecoratedHeavyInfantry : Decorator
+    class DecoratedHeavyInfantry : Decorator, IClonableToo
     {
         public DecoratedHeavyInfantry(IUnit unit) : base(unit)
         {
@@ -206,6 +223,11 @@ namespace BattleForAzeroth.ClassesOfUnits
             text += $"Armour:{Armour}(h({helm}),s({shield}))\n";
             text += $"Damage:{Damage}(p({pike}))";
             return text;
+        }
+
+        public IUnit Clone()
+        {
+            return new DecoratedHeavyInfantry(base.unit);
         }
     }
 }

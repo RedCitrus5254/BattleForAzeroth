@@ -8,6 +8,6 @@ namespace BattleForAzeroth
 {
     interface IFanfare
     {
-        void UpdateUnitsInfo(List<IUnit> units);
+        void UpdateUnitsInfo(IUnit unit);
     }
 }

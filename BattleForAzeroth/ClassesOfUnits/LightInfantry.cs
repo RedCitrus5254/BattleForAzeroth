@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BattleForAzeroth.ClassesOfUnits
 {
-    class LightInfantry : ICanBeHealed, IClonable, IUnit, ISpecialAction
+    class LightInfantry : ICanBeHealed, IClonable, IUnit, ISpecialAction, IClonableToo
     {
         public string Name { get; } = "LightInfantry";
         public int MaxHealth { get; set; } = 80;

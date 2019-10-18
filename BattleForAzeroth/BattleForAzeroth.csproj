@@ -59,9 +59,11 @@
     <Compile Include="ClassesOfUnits\LightInfantry.cs" />
     <Compile Include="ClassesOfUnits\Wizard.cs" />
     <Compile Include="Fabrica.cs" />
+    <Compile Include="ICommand.cs" />
     <Compile Include="IFanfare.cs" />
     <Compile Include="IStrategy.cs" />
     <Compile Include="OneToOneStrategy.cs" />
+    <Compile Include="Proxy.cs" />
     <Compile Include="Rand.cs" />
     <Compile Include="SelectCaracters.cs">
       <SubType>Form</SubType>

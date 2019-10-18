@@ -12,14 +12,13 @@ namespace BattleForAzeroth
         
         IStrategy strategy = new OneToOneStrategy();
 
-        public List<IUnit> firstTeam { get;} = new List<IUnit>();
-        public List<IUnit> secondTeam { get;} = new List<IUnit>();
+        public List<IUnit> firstTeam { get; set; } = new List<IUnit>();
+        public List<IUnit> secondTeam { get; set; } = new List<IUnit>();
 
 
         public void NextStep()
         {
-            Random random = new Random();
-            int whoseStep = random.Next(0, 2);
+            int whoseStep = Rand.GetRandomNum(0, 2);
             if(whoseStep == 0)
             {
                 Console.WriteLine("ONE TO ONE");
@@ -33,10 +32,6 @@ namespace BattleForAzeroth
                 strategy.AttackOppositeUnit(secondTeam, firstTeam);
                 strategy.UseAbility(secondTeam, firstTeam);
                 strategy.UseAbility(firstTeam, secondTeam);
-            }
-            else
-            {
-                Console.WriteLine("RANDOM ERROR");
             }
             foreach(var i in firstTeam)
             {
@@ -52,13 +47,13 @@ namespace BattleForAzeroth
 
         }
 
-        private void CleaningOfCorpses() //СДЕЛАТЬ ДЛЯ ОБСЕРВЕРА NOTIFY И ВЫЗВАТЬ ЕГО ТУТА
+        private void CleaningOfCorpses() 
         {
             for(int i=0; i < firstTeam.Count; i++)
             {
                 if (firstTeam[i].Health <= 0)
                 {
-                    Console.WriteLine($"DEAD {firstTeam[i].Name}");
+                    Notify(firstTeam[i]);
                     firstTeam.RemoveAt(i);
                     i--;
                 }
@@ -67,7 +62,7 @@ namespace BattleForAzeroth
             {
                 if (secondTeam[i].Health <= 0)
                 {
-                    Console.WriteLine($"DEAD {secondTeam[i].Name}");
+                    Notify(secondTeam[i]);
                     secondTeam.RemoveAt(i);
                     i--;
                 }
@@ -107,11 +102,11 @@ namespace BattleForAzeroth
             fanfareForms.Remove(fanfare);
         }
 
-        public void Notify() //ДОПИСАТЬ
+        public void Notify(IUnit unit) 
         {
             foreach(var f in fanfareForms)
             {
-                f.UpdateUnitsInfo(firstTeam);
+                f.UpdateUnitsInfo(unit);
             }
         }
 
@@ -140,7 +135,7 @@ namespace BattleForAzeroth
             }
             for (int i = 0; i < numOfUnitsInArmy[1]; i++)
             {
-                army.Add(new ClassesOfUnits.HeavyInfantry());
+                army.Add(new Proxy(new ClassesOfUnits.HeavyInfantry()));
             }
             for (int i = 0; i < numOfUnitsInArmy[2]; i++)
             {

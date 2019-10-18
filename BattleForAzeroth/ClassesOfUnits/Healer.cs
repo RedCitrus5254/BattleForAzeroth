@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BattleForAzeroth.ClassesOfUnits
 {
-    class Healer : ICanBeHealed, IUnit, ISpecialAction
+    class Healer : ICanBeHealed, IUnit, ISpecialAction, IClonableToo
     {
         public string Name { get; } = "Healer";
         public int MaxHealth { get; set; } = 60;
@@ -14,6 +14,24 @@ namespace BattleForAzeroth.ClassesOfUnits
         public int Armour { get; set; } = 0;
         public int Damage { get; set; } = 4;
         public int Range { get; set; } = 3;
+
+        public Healer()
+        {
+
+        }
+        public Healer(Healer Healer)
+        {
+            Name = Healer.Name;
+            MaxHealth = Healer.MaxHealth;
+            Health = Healer.Health;
+            Armour = Healer.Armour;
+            Damage = Healer.Damage;
+        }
+
+        public IUnit Clone()
+        {
+            return new Healer(this);
+        }
 
         public int DoSpecialAction()
         {

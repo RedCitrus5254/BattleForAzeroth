@@ -12,6 +12,8 @@ namespace BattleForAzeroth
 {
     public partial class BattleField : Form, IFanfare
     {
+        private CommandHistory history = new CommandHistory();
+        private bool isSubscribed = false;
         Fabrica fabrica = new Fabrica();
         public BattleField(int[] firstArmy, int[] secondArmy)
         {
@@ -29,9 +31,10 @@ namespace BattleForAzeroth
             this.Refresh();
         }
 
-        public void UpdateUnitsInfo(List<IUnit> units)
+        public void UpdateUnitsInfo(IUnit unit)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"ПОМЯНЕМ {unit.Name}");
+            Console.Beep();
         }
 
         private int CreateUnitLabels(int numOfFirstArmyUnits, int numOfSecondArmyUnits)
@@ -184,10 +187,23 @@ namespace BattleForAzeroth
         private void StepButton_Click(object sender, EventArgs e)
         {
             stepButton.Enabled = false;
-            fabrica.NextStep();
 
+            NextStep nextStep = new NextStep(fabrica);
+            nextStep.Execute();
+            history.ClearRedoHistory();
+            history.Push(nextStep);
+
+            //fabrica.NextStep();
+
+            UpdateLabelsInfoAndLocation();
+
+            stepButton.Enabled = true;
+        }
+
+        private void UpdateLabelsInfoAndLocation()
+        {
             int result = CreateUnitLabels(fabrica.GetCountOfFirstTeam(), fabrica.GetCountOfSecondTeam());
-            if(result == 0)
+            if (result == 0)
             {
                 if (oneToOneRadioButton.Checked)
                 {
@@ -202,21 +218,20 @@ namespace BattleForAzeroth
                     ChangeLabelsLocationAllToAll();
                 }
             }
-            else if(result == 1)
+            else if (result == 1)
             {
                 MessageBox.Show("HORDE WIN!!!");
             }
-            else if(result == 2)
+            else if (result == 2)
             {
                 MessageBox.Show("ALLIANCE WIN");
             }
 
-            
+
             UpdateLabels(fabrica.firstTeam, fabrica.secondTeam);
-            
+
 
             this.Refresh();
-            stepButton.Enabled = true;
         }
 
         private void ThreeToThreeRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -235,6 +250,35 @@ namespace BattleForAzeroth
         {
             ChangeLabelsLocationAllToAll();
             fabrica.SetAllToAllStrategy();
+        }
+
+        private void SubscribeButton_Click(object sender, EventArgs e)
+        {
+            if (isSubscribed)
+            {
+                isSubscribed = false;
+                fabrica.UnSubscribe(this);
+                subscribeButton.Text = "Фанфары: OFF";
+            }
+            else
+            {
+                isSubscribed = true;
+                fabrica.Subscribe(this);
+                subscribeButton.Text = "Фанфары: ON";
+            }
+        }
+
+        private void UndoButton_Click(object sender, EventArgs e)
+        {
+            history.PopUndo();
+
+            UpdateLabelsInfoAndLocation();
+        }
+
+        private void RedoButton_Click(object sender, EventArgs e)
+        {
+            history.PopRedo();
+            UpdateLabelsInfoAndLocation();
         }
     }
 }
