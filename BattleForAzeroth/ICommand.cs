@@ -12,7 +12,9 @@ namespace BattleForAzeroth
         void Undo();
         void Redo();
     }
-
+    /// <summary>
+    /// паттерн Команда. Перед методом NextStep() запоминает состояние списков юнитов
+    /// </summary>
     class NextStep: ICommand
     {
         private Fabrica fabrica;
@@ -48,6 +50,9 @@ namespace BattleForAzeroth
                 secondArmyAfter.Add(((IClonableToo)i).Clone());
             }
         }
+        /// <summary>
+        /// Отменяет предыдущее действие
+        /// </summary>
         public void Undo()
         {
             fabrica.firstTeam.Clear();
@@ -61,6 +66,9 @@ namespace BattleForAzeroth
                 fabrica.secondTeam.Add(((IClonableToo)i).Clone());
             }
         }
+        /// <summary>
+        /// отменяет отмену
+        /// </summary>
         public void Redo()
         {
             fabrica.firstTeam.Clear();
@@ -75,7 +83,9 @@ namespace BattleForAzeroth
             }
         }
     }
-
+    /// <summary>
+    /// хранит историю действий
+    /// </summary>
     class CommandHistory
     {
         private List<ICommand> undoHistory = new List<ICommand>();
@@ -106,6 +116,7 @@ namespace BattleForAzeroth
                 return null;
             }
             ICommand command = redoHistory[redoHistory.Count - 1];
+            Push(command);
             command.Redo();
             redoHistory.RemoveAt(redoHistory.Count - 1);
             return command;

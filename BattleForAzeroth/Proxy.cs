@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace BattleForAzeroth
 {
+    /// <summary>
+    /// Реализация паттера Proxy (Заместитель).
+    /// К методу ToString() добавляется строка "Proxy"
+    /// </summary>
     class Proxy : IUnit, IClonableToo
     {
         IUnit heavyInfantry;

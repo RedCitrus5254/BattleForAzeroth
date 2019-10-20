@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 namespace BattleForAzeroth
 {
     
-
+    /// <summary>
+    /// Реализация стратегии.
+    /// Первые в списке юниты дерутся, остальные применяют способности.
+    /// </summary>
     class OneToOneStrategy : IStrategy
     {
         public void AttackOppositeUnit(List<IUnit> firstArmy, List<IUnit> secondArmy)
@@ -21,6 +24,7 @@ namespace BattleForAzeroth
 
         public void UseAbility( List<IUnit> firstArmy, List<IUnit> secondArmy)
         {
+            Console.WriteLine("One To One");
             
             for(int i=1; i< firstArmy.Count;i++)
             {

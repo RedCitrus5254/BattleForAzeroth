@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BattleForAzeroth
 {
+    /// <summary>
+    /// Паттерн Стратегия
+    /// </summary>
     interface IStrategy
     {
         void AttackOppositeUnit(List<IUnit> firstArmy, List<IUnit> secondArmy);

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace BattleForAzeroth
 {
+    /// <summary>
+    /// В этом классе создаются и хранятся юниты.
+    /// Оповещает класс battlefield, когда юнит умирает (паттерн Observer).
+    /// </summary>
     class Fabrica
     {
         List<IFanfare> fanfareForms = new List<IFanfare>();
@@ -15,22 +19,26 @@ namespace BattleForAzeroth
         public List<IUnit> firstTeam { get; set; } = new List<IUnit>();
         public List<IUnit> secondTeam { get; set; } = new List<IUnit>();
 
-
+        /// <summary>
+        /// Вызывает методы стратегии AttackOppositeUnit и UseAbility обеих команд
+        /// </summary>
         public void NextStep()
         {
             int whoseStep = Rand.GetRandomNum(0, 2);
             if(whoseStep == 0)
             {
-                Console.WriteLine("ONE TO ONE");
                 strategy.AttackOppositeUnit(firstTeam, secondTeam);
-                Console.WriteLine("ABILITY STAGE");
+                Console.WriteLine("First team");
                 strategy.UseAbility(firstTeam, secondTeam);
+                Console.WriteLine("second team");
                 strategy.UseAbility(secondTeam, firstTeam);
             }
             else if(whoseStep == 1)
             {
                 strategy.AttackOppositeUnit(secondTeam, firstTeam);
+                Console.WriteLine("second team");
                 strategy.UseAbility(secondTeam, firstTeam);
+                Console.WriteLine("First team");
                 strategy.UseAbility(firstTeam, secondTeam);
             }
             foreach(var i in firstTeam)
@@ -46,7 +54,10 @@ namespace BattleForAzeroth
             CleaningOfCorpses();
 
         }
-
+        /// <summary>
+        /// Смотрит, у каких юнитов Health меньше 0 и удаляет их из списка.
+        /// сообщает о смерти юнитов подписчикам.
+        /// </summary>
         private void CleaningOfCorpses() 
         {
             for(int i=0; i < firstTeam.Count; i++)

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BattleForAzeroth
 {
+    /// <summary>
+    /// Паттерн Observer
+    /// </summary>
     interface IFanfare
     {
         void UpdateUnitsInfo(IUnit unit);

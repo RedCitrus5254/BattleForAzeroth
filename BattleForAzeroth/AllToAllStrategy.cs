@@ -22,6 +22,7 @@ namespace BattleForAzeroth
 
         public void UseAbility(List<IUnit> firstArmy, List<IUnit> secondArmy)
         {
+            Console.WriteLine("All To All");
             int minorArmyCount;
             if (firstArmy.Count > secondArmy.Count)
             {

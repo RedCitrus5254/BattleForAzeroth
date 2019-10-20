@@ -29,6 +29,7 @@ namespace BattleForAzeroth
 
         public void UseAbility( List<IUnit> firstArmy, List<IUnit> secondArmy)
         {
+            Console.WriteLine("Three To Three");
             for (int i = 3; i < firstArmy.Count; i++) //начинаем с 3 позиции, так как 0, 1, 2 дерутся
             {
                 ISpecialAction unitAction;
